@@ -27,8 +27,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>WEB-INF/xml-servlet.xml,
-            WEB-INF/application-context.xml
+        <param-value>WEB-INF/xml-servlet.xml
         </param-value>
     </context-param>
 
