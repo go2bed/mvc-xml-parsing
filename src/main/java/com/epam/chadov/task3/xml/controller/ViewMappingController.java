@@ -13,8 +13,4 @@ public class ViewMappingController {
         return new ModelAndView("main");
     }
 
-    @RequestMapping("/news")
-    public ModelAndView newsPage(){
-        return new ModelAndView("news");
-    }
 }

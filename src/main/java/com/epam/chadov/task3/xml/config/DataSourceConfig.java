@@ -1,6 +1,5 @@
 package com.epam.chadov.task3.xml.config;
 
-
 import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -10,9 +10,9 @@ public interface GenericDao<T> {
 
     void update(T object);
 
-    void delete(Integer id);
+    void delete(int id);
 
-    T getById(Integer id);
+    T getById(int id);
 
 
 }

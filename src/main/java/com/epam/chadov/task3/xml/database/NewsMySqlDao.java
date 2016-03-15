@@ -7,6 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
@@ -17,30 +22,34 @@ public class NewsMySqlDao implements GenericDao<News> {
     @PersistenceContext(name = "newsDS")
     private EntityManager manager;
 
-
     @Override
     public List<News> getAll() {
-
-        return null;
+        Query query = manager.createQuery("SELECT e FROM NEWS e");
+        return (List<News>) query.getResultList();
     }
 
     @Override
-    public void create(News object) {
-
+    public void create(News news) {
+        manager.persist(news);
     }
 
     @Override
-    public void update(News object) {
-
+    public void update(News news) {
+        News updateNews = manager.find(News.class, news.getId());
+        updateNews.setTitle(news.getTitle());
+        updateNews.setNewsDate(news.getNewsDate());
+        updateNews.setBrief(news.getBrief());
+        updateNews.setContent(news.getContent());
     }
 
     @Override
-    public void delete(Integer id) {
-
+    public void delete(int id) {
+        News news = getById(id);
+        manager.remove(news);
     }
 
     @Override
-    public News getById(Integer id) {
-        return null;
+    public News getById(int id) {
+        return manager.find(News.class, id);
     }
 }
