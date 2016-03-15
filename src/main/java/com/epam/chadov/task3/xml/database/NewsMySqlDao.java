@@ -14,7 +14,7 @@ import java.util.List;
 @Configuration
 public class NewsMySqlDao implements GenericDao<News> {
 
-    @PersistenceContext(name = "newsMySql")
+    @PersistenceContext(name = "newsDS")
     private EntityManager manager;
 
 

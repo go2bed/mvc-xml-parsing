@@ -13,10 +13,6 @@
             base-package="com.epam.chadov.task3.xml"/>
     <tx:annotation-driven/>
 
-    <!--<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
-    <!--&lt;!&ndash; (this dependency is defined somewhere else) &ndash;&gt;-->
-    <!--<property name="dataSource" ref="dataSource"/>-->
-    <!--</bean>-->
 
     <!--View resolver for jsp pages-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">

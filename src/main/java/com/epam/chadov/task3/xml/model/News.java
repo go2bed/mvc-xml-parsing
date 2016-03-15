@@ -28,8 +28,6 @@ public class News {
     private String content;
 
 
-
-
     @Override
     public String toString() {
         return "News{" +
