@@ -24,7 +24,7 @@ public class NewsMySqlDao implements GenericDao<News> {
 
     @Override
     public List<News> getAll() {
-        Query query = manager.createQuery("SELECT e FROM NEWS e");
+        Query query = manager.createQuery("SELECT e FROM News e", News.class);
         return (List<News>) query.getResultList();
     }
 

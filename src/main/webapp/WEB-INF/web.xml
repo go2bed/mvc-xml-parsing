@@ -22,6 +22,8 @@
         <url-pattern>/main.html</url-pattern>
         <url-pattern>/news.jsp</url-pattern>
         <url-pattern>/news.html</url-pattern>
+        <url-pattern>/upload.jsp</url-pattern>
+        <url-pattern>/upload.html</url-pattern>
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
 

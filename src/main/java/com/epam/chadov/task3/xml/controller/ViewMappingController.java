@@ -13,4 +13,13 @@ public class ViewMappingController {
         return new ModelAndView("main");
     }
 
+    @RequestMapping("/xml-validate")
+    public ModelAndView xmlValidatePage() {
+        return new ModelAndView("xml-validate");
+    }
+
+    @RequestMapping("/xml-parsing")
+    public ModelAndView xmlParseSuccessPage(){
+        return new ModelAndView("xml-parsing-success");
+    }
 }

@@ -10,7 +10,7 @@ import java.sql.Date;
 
 @Data
 @Entity
-@Table(name = "NEWS")
+@Table(name = "News")
 public class News {
 
     @Id
