@@ -8,14 +8,19 @@
 </script>
 
 <body>
-  <p>Select XML file to upload. Press Add button to add more file
-            inputs.</p>
+  <p>Select XML file to upload. Select parse method,
+  which you would like to parse this file.</p>
   <br>
-     <form action="upload.html" method="post" enctype="multipart/form-data"
+  <form action="upload.html" method="post" enctype="multipart/form-data"
     onsubmit="return validation(this)">
     Select XML File:<input type="file" name="file"/><br/>
-     <input type="submit" value="Check validation" onclick="return validation(this)"/>
-    </form>
+  <select id="parser" name="parser_type">
+     <option value="Sax">Sax parser</option>
+     <option value="Stax">Stax parser</option>
+     <option value="DOM">DOM parser</option>
+    <input type="submit" value="Parse" onclick="return validation(this)"/>
+   </select>
+   </form>
      <br>
     <br>
      Message:${message}

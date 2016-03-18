@@ -14,13 +14,12 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.ContextLoaderListener;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-public class DataSourceConfig {
+public class PersistenceConfig {
 
     @Bean(name = "dataSource")
     public DataSource dataSource() {
@@ -79,8 +78,5 @@ public class DataSourceConfig {
         return transactionManager;
     }
 
-    @Bean
-    public ContextLoaderListener contextLoaderListener() {
-        return new ContextLoaderListener();
-    }
+
 }

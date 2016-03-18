@@ -5,18 +5,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 
 
 @Data
 @Entity
 @Table(name = "News")
-public class News {
+public class News implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private int id;
+
+//    @Version
+//    @Column(name = "VERSION")
+//    private Long version;
 
     @Basic
     @Column(name = "TITLE")
@@ -33,4 +38,5 @@ public class News {
     @Basic
     @Column(name = "CONTENT")
     private String content;
+
 }

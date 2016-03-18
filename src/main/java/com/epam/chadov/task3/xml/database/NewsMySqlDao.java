@@ -8,10 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
@@ -20,36 +16,39 @@ import java.util.List;
 public class NewsMySqlDao implements GenericDao<News> {
 
     @PersistenceContext(name = "newsDS")
-    private EntityManager manager;
+    private EntityManager em;
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<News> getAll() {
-        Query query = manager.createQuery("SELECT e FROM News e", News.class);
+        Query query = em.createQuery("SELECT e FROM News e", News.class);
         return (List<News>) query.getResultList();
     }
 
     @Override
     public void create(News news) {
-        manager.persist(news);
+        em.persist(news);
     }
 
     @Override
     public void update(News news) {
-        News updateNews = manager.find(News.class, news.getId());
+        //TODO  em.merge() ?? diff between persist and merge ??
+        News updateNews = em.find(News.class, news.getId());
         updateNews.setTitle(news.getTitle());
         updateNews.setNewsDate(news.getNewsDate());
         updateNews.setBrief(news.getBrief());
         updateNews.setContent(news.getContent());
+
     }
 
     @Override
     public void delete(int id) {
         News news = getById(id);
-        manager.remove(news);
+        em.remove(news);
     }
 
     @Override
     public News getById(int id) {
-        return manager.find(News.class, id);
+        return em.find(News.class, id);
     }
 }
