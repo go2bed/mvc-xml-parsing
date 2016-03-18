@@ -1,4 +1,4 @@
-package com.epam.chadov.task3.xml.io;
+package com.epam.chadov.task3.xml.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

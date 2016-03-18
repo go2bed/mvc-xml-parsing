@@ -41,7 +41,7 @@ public class DOMParser implements Parser<List<News>> {
             Document document = builder.parse(in);
             result.add(parseDOM(document));
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't parse input stream by DOM Parser", e);
         }
         return result;
     }

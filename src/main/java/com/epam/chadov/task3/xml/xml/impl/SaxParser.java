@@ -1,6 +1,6 @@
 package com.epam.chadov.task3.xml.xml.impl;
 
-import com.epam.chadov.task3.xml.io.DateConverter;
+import com.epam.chadov.task3.xml.utils.DateConverter;
 import com.epam.chadov.task3.xml.model.News;
 import com.epam.chadov.task3.xml.xml.parsers.Parser;
 import org.slf4j.Logger;
@@ -38,7 +38,7 @@ public class SaxParser implements Parser<List<News>> {
                     .newSAXParser();
             saxParser.parse(in, handler);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't parse input stream by SAX Parser", e);
         }
         return result;
     }

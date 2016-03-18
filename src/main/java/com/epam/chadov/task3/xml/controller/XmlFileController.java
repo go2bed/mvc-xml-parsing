@@ -1,5 +1,6 @@
 package com.epam.chadov.task3.xml.controller;
 
+import com.epam.chadov.task3.xml.database.NewsMySqlDao;
 import com.epam.chadov.task3.xml.model.News;
 import com.epam.chadov.task3.xml.xml.parsers.Parser;
 import com.epam.chadov.task3.xml.xml.validator.XMLValidator;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,6 +26,9 @@ public class XmlFileController {
 
     @Autowired
     private XMLValidator xmlValidator;
+
+    @Autowired
+    private NewsMySqlDao newsMySqlDao;
 
     @Autowired
     @Qualifier("domParser")
@@ -38,19 +43,48 @@ public class XmlFileController {
     private Parser<List<News>> staxParser;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String fileUploadValidateAndParse(@RequestParam("file") MultipartFile multipartFile,
-                                             @RequestParam("parser_type") String parserType,
-                                             ModelMap model) throws IOException {
+    public String fileProcessing(@RequestParam("file") MultipartFile multipartFile,
+                                 @RequestParam("parser_type") String parserType,
+                                 ModelMap model) throws IOException {
         LOGGER.info(parserType);
-        InputStream file = multipartFile.getInputStream();
-        LOGGER.info("Fetching file");
-        if (!xmlValidator.validateXMLSchema(file)) {
-            model.addAttribute("message", "XSD validate is failed, please, check your XML file");
+        InputStream xmlFile = multipartFile.getInputStream();
+        LOGGER.info("Fetching xmlFile");
+        if (!xmlValidator.validateXMLSchema(xmlFile)) {
+            model.addAttribute("message", "XSD validate is failed, please, check your XML xmlFile");
             return "xml-validate";
         } else {
-            model.addAttribute("message", "Validate is success! Now you can parse your XML file");
-            model.addAttribute("message2", file);
+            model.addAttribute("message", "Validate is success! Now you can parse your XML xmlFile");
+            model.addAttribute("message2", xmlFile);
             return "xml-validate-success";
         }
+    }
+
+    private boolean doParseXML(InputStream xmlFile, String parserType) {
+        List<News> newsList = new ArrayList<>();
+        switch (parserType.toLowerCase()) {
+            case "sax":
+                newsList = saxParser.apply(xmlFile);
+                break;
+            case "stax":
+                newsList = staxParser.apply(xmlFile);
+                break;
+            case "dom":
+                newsList = domParser.apply(xmlFile);
+                break;
+        }
+        if(newsList.isEmpty()){
+            writeDataOnlyToXmlDatabase();
+        }
+        return false;
+    }
+
+    private boolean writeDataOnlyToXmlDatabase() {
+
+        return false;
+    }
+
+    private boolean writeDataToBothSDatabases() {
+
+        return false;
     }
 }
