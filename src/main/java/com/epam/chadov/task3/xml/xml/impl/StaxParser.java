@@ -9,12 +9,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
-import javax.xml.stream.*;
-import javax.xml.stream.events.*;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Characters;
+import javax.xml.stream.events.EndElement;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 import java.io.InputStream;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Service("staxParser")
@@ -45,10 +50,8 @@ public class StaxParser implements Parser<List<News>> {
                         String qName = startElement.getName().getLocalPart();
                         if (qName.equalsIgnoreCase("news")) {
                             LOGGER.info("Start Element : news");
+                            startElement.getAttributes();
                             news = new News();
-                            Iterator<Attribute> attributes = startElement.getAttributes();
-                            String rollNo = attributes.next().getValue();
-                            LOGGER.info("Roll No : " + rollNo);
                         } else if (qName.equalsIgnoreCase("title")) {
                             bTitle = true;
                         } else if (qName.equalsIgnoreCase("news_date")) {

@@ -50,9 +50,14 @@ public class XmlFileController {
         InputStream xmlFile = multipartFile.getInputStream();
         LOGGER.info("Fetching xmlFile");
         if (!xmlValidator.validateXMLSchema(xmlFile)) {
+            xmlFile.reset();
+            LOGGER.info("Validation of xmlFile is failed");
             model.addAttribute("message", "XSD validate is failed, please, check your XML xmlFile");
             return "xml-validate";
         } else {
+            xmlFile.reset();
+            LOGGER.info("Validation of xmlFile is successful, start parsing");
+            doParseXML(xmlFile, parserType);
             model.addAttribute("message", "Validate is success! Now you can parse your XML xmlFile");
             model.addAttribute("message2", xmlFile);
             return "xml-validate-success";
@@ -74,6 +79,10 @@ public class XmlFileController {
         }
         if(newsList.isEmpty()){
             writeDataOnlyToXmlDatabase();
+            LOGGER.info("Parsing was not successful and this data to DB" + newsList.toString());
+        } else{
+            writeDataToBothSDatabases();
+            LOGGER.info("Parsing was  successful and this data to DB" + newsList.toString());
         }
         return false;
     }

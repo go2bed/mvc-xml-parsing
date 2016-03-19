@@ -37,8 +37,12 @@ public class SaxParser implements Parser<List<News>> {
                     .newInstance()
                     .newSAXParser();
             saxParser.parse(in, handler);
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            LOGGER.error("Can't parse input stream by SAX Parser", e);
+        } catch (ParserConfigurationException e) {
+            LOGGER.error("ParserConfigurationException Can't parse input stream by SAX Parser", e);
+        } catch (SAXException e) {
+            LOGGER.error(" SAXException Can't parse input stream by SAX Parser", e);
+        } catch (IOException e) {
+            LOGGER.error(" IOException Can't parse input stream by SAX Parser" + e.getMessage(), e);
         }
         return result;
     }
@@ -51,6 +55,7 @@ public class SaxParser implements Parser<List<News>> {
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
             if (qName.equalsIgnoreCase("News")) {
+                LOGGER.info("Start element is news, creating new object - news");
                 news = new News();
             }
         }
