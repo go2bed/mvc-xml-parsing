@@ -1,5 +1,6 @@
-package com.epam.chadov.task3.xml.database;
+package com.epam.chadov.task3.xml.database.impl;
 
+import com.epam.chadov.task3.xml.database.GenericDao;
 import com.epam.chadov.task3.xml.model.News;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +16,8 @@ import java.util.List;
 @Repository
 @Transactional
 @Configuration
-public class NewsMySqlDao implements GenericDao<News> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NewsMySqlDao.class);
+public class NewsDao implements GenericDao<News> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NewsDao.class);
 
     @PersistenceContext(name = "newsDS")
     private EntityManager em;

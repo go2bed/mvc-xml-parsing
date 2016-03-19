@@ -16,7 +16,6 @@ import java.io.InputStream;
 
 @Component
 public class XMLValidator {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(XMLValidator.class);
 
     @Value("${xsd.news-schema}")

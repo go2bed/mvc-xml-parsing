@@ -1,9 +1,11 @@
 package com.epam.chadov.task3.xml.controller;
 
-import com.epam.chadov.task3.xml.database.NewsMySqlDao;
+import com.epam.chadov.task3.xml.controller.exceptions.XMLFileControllerException;
+import com.epam.chadov.task3.xml.database.impl.NewsDao;
+import com.epam.chadov.task3.xml.database.impl.NewsXMLDao;
 import com.epam.chadov.task3.xml.model.News;
 import com.epam.chadov.task3.xml.model.NewsXML;
-import com.epam.chadov.task3.xml.model.NewsXMLFactory;
+import com.epam.chadov.task3.xml.utils.NewsXMLFactory;
 import com.epam.chadov.task3.xml.xml.parsers.Parser;
 import com.epam.chadov.task3.xml.xml.validator.XMLValidator;
 import org.slf4j.Logger;
@@ -30,44 +32,51 @@ public class XmlFileController {
     private XMLValidator xmlValidator;
 
     @Autowired
-    private NewsMySqlDao newsMySqlDao;
+    private NewsDao newsDao;
 
     @Autowired
-    @Qualifier("newsXMLFactory")
+    private NewsXMLDao newsXMLDao;
+
+    @Autowired
+    @Qualifier("theNewsXMLFactory")
     private NewsXMLFactory newsXMLFactory;
 
     @Autowired
-    @Qualifier("domParser")
+    @Qualifier("theDomParser")
     private Parser<List<News>> domParser;
 
     @Autowired
-    @Qualifier("saxParser")
+    @Qualifier("theSaxParser")
     private Parser<List<News>> saxParser;
 
     @Autowired
-    @Qualifier("staxParser")
+    @Qualifier("theStaxParser")
     private Parser<List<News>> staxParser;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String fileProcessing(@RequestParam("file") MultipartFile multipartFile,
                                  @RequestParam("parser_type") String parserType,
-                                 ModelMap model) throws IOException {
+                                 ModelMap model) {
         LOGGER.info(parserType);
         NewsXML newsXML = newsXMLFactory.getNewsXML(multipartFile);
-        InputStream xmlFile = multipartFile.getInputStream();
+        InputStream xmlFile;
+        try {
+            xmlFile = multipartFile.getInputStream();
+        } catch (IOException e) {
+            throw new XMLFileControllerException("Can't get input stream from multipart file", e);
+        }
         LOGGER.info("Fetching xmlFile");
         if (!xmlValidator.validateXMLSchema(xmlFile)) {
-            xmlFile.reset();
+            xmlFile = resetStream(xmlFile);
             LOGGER.info("Validation of xmlFile is failed");
             model.addAttribute("message", "XSD validate is failed, please, check your XML File");
         } else {
-            xmlFile.reset();
+            xmlFile = resetStream(xmlFile);
             LOGGER.info("Validation of xmlFile is successful, start parsing");
             model.addAttribute("message", "Validate is success! Your file was parsed and news saved in DataBase");
         }
         doParseXML(xmlFile, parserType, newsXML);
         return "xml-validate-success";
-
     }
 
     private boolean doParseXML(InputStream xmlFile, String parserType, NewsXML newsXML) {
@@ -84,7 +93,7 @@ public class XmlFileController {
                 break;
         }
         if (newsList.isEmpty()) {
-            LOGGER.info("Parsing was not successful" );
+            LOGGER.info("Parsing was not successful");
             writeDataToXmlDatabase(newsXML);
         } else {
             LOGGER.info("Parsing was successful");
@@ -97,14 +106,26 @@ public class XmlFileController {
 
     private void writeDataToXmlDatabase(NewsXML newsXML) {
         LOGGER.info("This newsXml get to XML DB " + newsXML);
+        newsXMLDao.create(newsXML);
     }
 
     private void writeDataToNewsDatabase(List<News> newsList) {
         LOGGER.info("This data get to NEWS DB" + newsList);
         for (News news : newsList) {
-            newsMySqlDao.create(news);
+            newsDao.create(news);
         }
     }
-}
 
-//TODO: Exception IO remove and insert own Runtime
+
+    private InputStream resetStream(InputStream other) {
+        try {
+            if (other != null) {
+                other.reset();
+            }
+        } catch (IOException e) {
+            LOGGER.error("Can't reset input stream data to begin", e);
+            throw new XMLFileControllerException("Can't reset input stream data to begin", e);
+        }
+        return other;
+    }
+}

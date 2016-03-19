@@ -30,6 +30,5 @@ public class NewsXML {
 
     @Basic
     @Column(name = "SUCCESS")
-    private boolean success;
-
+    private Boolean success;
 }

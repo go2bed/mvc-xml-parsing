@@ -1,7 +1,7 @@
-package com.epam.chadov.task3.xml.model;
+package com.epam.chadov.task3.xml.utils;
 
-import com.epam.chadov.task3.xml.controller.exceptions.XMLFileControllerException;
-import com.epam.chadov.task3.xml.utils.BlobFromStreamConverter;
+import com.epam.chadov.task3.xml.model.NewsXML;
+import com.epam.chadov.task3.xml.utils.exceptions.NewsXMLFactoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
 
-@Component("newsXMLFactory")
+@Component("theNewsXMLFactory")
 public class NewsXMLFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(NewsXMLFactory.class);
 
@@ -30,7 +30,7 @@ public class NewsXMLFactory {
             newsXML.setXmlContent(converter.convert(multipartFile.getInputStream()));
         } catch (IOException e) {
             LOGGER.error("Can't get input stream from file and convert to Blob", e);
-            throw new XMLFileControllerException("Can't get input stream from file and convert to BLob", e);
+            throw new NewsXMLFactoryException("Can't get input stream from file and convert to BLob", e);
         }
         newsXML.setSuccess(false); //It's a default value
         return newsXML;

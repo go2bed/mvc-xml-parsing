@@ -1,6 +1,6 @@
 package com.epam.chadov.task3.xml.controller;
 
-import com.epam.chadov.task3.xml.database.NewsMySqlDao;
+import com.epam.chadov.task3.xml.database.impl.NewsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,11 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 public class NewsController {
 
     @Autowired
-    private NewsMySqlDao newsMySqlDao;
+    private NewsDao newsDao;
 
     @RequestMapping(value = "/news", method = RequestMethod.GET)
     public ModelAndView newsPage(ModelMap model) {
-        model.addAttribute("newsList", newsMySqlDao.getAll());
+        model.addAttribute("newsList", newsDao.getAll());
         return new ModelAndView("news");
     }
 }

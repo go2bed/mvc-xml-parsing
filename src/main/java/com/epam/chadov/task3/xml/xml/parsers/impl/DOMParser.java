@@ -1,4 +1,4 @@
-package com.epam.chadov.task3.xml.xml.impl;
+package com.epam.chadov.task3.xml.xml.parsers.impl;
 
 import com.epam.chadov.task3.xml.model.News;
 import com.epam.chadov.task3.xml.xml.exceptions.ParseException;
@@ -24,7 +24,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("domParser")
+@Service("theDomParser")
 public class DOMParser implements Parser<List<News>> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DOMParser.class);
 
