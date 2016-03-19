@@ -3,7 +3,6 @@ package com.epam.chadov.task3.xml.xml.validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 

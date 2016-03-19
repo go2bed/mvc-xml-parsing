@@ -2,6 +2,7 @@ package com.epam.chadov.task3.xml.xml.impl;
 
 import com.epam.chadov.task3.xml.utils.DateConverter;
 import com.epam.chadov.task3.xml.model.News;
+import com.epam.chadov.task3.xml.xml.exceptions.ParseException;
 import com.epam.chadov.task3.xml.xml.parsers.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +38,9 @@ public class SaxParser implements Parser<List<News>> {
                     .newInstance()
                     .newSAXParser();
             saxParser.parse(in, handler);
-        } catch (ParserConfigurationException e) {
-            LOGGER.error("ParserConfigurationException Can't parse input stream by SAX Parser", e);
-        } catch (SAXException e) {
-            LOGGER.error(" SAXException Can't parse input stream by SAX Parser", e);
-        } catch (IOException e) {
-            LOGGER.error(" IOException Can't parse input stream by SAX Parser" + e.getMessage(), e);
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            LOGGER.error("Can't parse input stream by SAX Parser", e);
+            throw new ParseException("Can't parse input stream by SAX Parser", e);
         }
         return result;
     }
@@ -57,6 +55,15 @@ public class SaxParser implements Parser<List<News>> {
             if (qName.equalsIgnoreCase("News")) {
                 LOGGER.info("Start element is news, creating new object - news");
                 news = new News();
+                if (result == null) result = new ArrayList<>();
+            } else if (qName.equalsIgnoreCase("title")) {
+                bTitle = true;
+            } else if (qName.equalsIgnoreCase("news_date")) {
+                bDate = true;
+            } else if (qName.equalsIgnoreCase("brief")) {
+                bBrief = true;
+            } else if (qName.equalsIgnoreCase("content")) {
+                bContent = true;
             }
         }
 

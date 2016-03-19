@@ -1,6 +1,8 @@
 package com.epam.chadov.task3.xml.database;
 
 import com.epam.chadov.task3.xml.model.News;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import java.util.List;
 @Transactional
 @Configuration
 public class NewsMySqlDao implements GenericDao<News> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NewsMySqlDao.class);
 
     @PersistenceContext(name = "newsDS")
     private EntityManager em;
@@ -27,7 +30,8 @@ public class NewsMySqlDao implements GenericDao<News> {
 
     @Override
     public void create(News news) {
-        em.persist(news);
+        LOGGER.info("creating new entity in DB" + news);
+        em.merge(news);
     }
 
     @Override

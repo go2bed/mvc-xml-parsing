@@ -1,6 +1,7 @@
 package com.epam.chadov.task3.xml.xml.impl;
 
 import com.epam.chadov.task3.xml.model.News;
+import com.epam.chadov.task3.xml.xml.exceptions.ParseException;
 import com.epam.chadov.task3.xml.xml.parsers.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,7 @@ public class DOMParser implements Parser<List<News>> {
             result.add(parseDOM(document));
         } catch (ParserConfigurationException | SAXException | IOException e) {
             LOGGER.error("Can't parse input stream by DOM Parser", e);
+            throw new ParseException("Can't parse input stream by DOM Parser", e);
         }
         return result;
     }

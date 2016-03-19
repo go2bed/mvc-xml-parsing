@@ -64,7 +64,7 @@ public class XmlFileController {
         }
     }
 
-    private boolean doParseXML(InputStream xmlFile, String parserType) {
+    private boolean doParseXML(InputStream xmlFile, String parserType) throws IOException {
         List<News> newsList = new ArrayList<>();
         switch (parserType.toLowerCase()) {
             case "sax":
@@ -77,12 +77,12 @@ public class XmlFileController {
                 newsList = domParser.apply(xmlFile);
                 break;
         }
-        if(newsList.isEmpty()){
+        if (newsList.isEmpty()) {
             writeDataOnlyToXmlDatabase();
-            LOGGER.info("Parsing was not successful and this data to DB" + newsList.toString());
-        } else{
-            writeDataToBothSDatabases();
-            LOGGER.info("Parsing was  successful and this data to DB" + newsList.toString());
+            LOGGER.info("Parsing was not successful and this data to only XML DB" + newsList.toString());
+        } else {
+            writeDataToBothSDatabases(newsList);
+            LOGGER.info("Parsing was  successful and this data to both DB" + newsList.toString());
         }
         return false;
     }
@@ -92,8 +92,11 @@ public class XmlFileController {
         return false;
     }
 
-    private boolean writeDataToBothSDatabases() {
-
+    private boolean writeDataToBothSDatabases(List<News> newsList) {
+        for (News news : newsList) {
+            newsMySqlDao.create(news);
+        }
         return false;
     }
 }
+//TODO: Exception IO remove and insert own Runtime
