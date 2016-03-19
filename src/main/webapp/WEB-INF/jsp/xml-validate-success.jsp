@@ -8,7 +8,6 @@
     parser for your File.</p>
     <p>Message:${message}</p>
        <br>
-  <contentType="hidden">${message2}</contentType>
     <br>
 
 

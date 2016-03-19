@@ -2,6 +2,8 @@ package com.epam.chadov.task3.xml.controller;
 
 import com.epam.chadov.task3.xml.database.NewsMySqlDao;
 import com.epam.chadov.task3.xml.model.News;
+import com.epam.chadov.task3.xml.model.NewsXML;
+import com.epam.chadov.task3.xml.model.NewsXMLFactory;
 import com.epam.chadov.task3.xml.xml.parsers.Parser;
 import com.epam.chadov.task3.xml.xml.validator.XMLValidator;
 import org.slf4j.Logger;
@@ -31,6 +33,10 @@ public class XmlFileController {
     private NewsMySqlDao newsMySqlDao;
 
     @Autowired
+    @Qualifier("newsXMLFactory")
+    private NewsXMLFactory newsXMLFactory;
+
+    @Autowired
     @Qualifier("domParser")
     private Parser<List<News>> domParser;
 
@@ -47,24 +53,24 @@ public class XmlFileController {
                                  @RequestParam("parser_type") String parserType,
                                  ModelMap model) throws IOException {
         LOGGER.info(parserType);
+        NewsXML newsXML = newsXMLFactory.getNewsXML(multipartFile);
         InputStream xmlFile = multipartFile.getInputStream();
         LOGGER.info("Fetching xmlFile");
         if (!xmlValidator.validateXMLSchema(xmlFile)) {
             xmlFile.reset();
             LOGGER.info("Validation of xmlFile is failed");
-            model.addAttribute("message", "XSD validate is failed, please, check your XML xmlFile");
-            return "xml-validate";
+            model.addAttribute("message", "XSD validate is failed, please, check your XML File");
         } else {
             xmlFile.reset();
             LOGGER.info("Validation of xmlFile is successful, start parsing");
-            doParseXML(xmlFile, parserType);
-            model.addAttribute("message", "Validate is success! Now you can parse your XML xmlFile");
-            model.addAttribute("message2", xmlFile);
-            return "xml-validate-success";
+            model.addAttribute("message", "Validate is success! Your file was parsed and news saved in DataBase");
         }
+        doParseXML(xmlFile, parserType, newsXML);
+        return "xml-validate-success";
+
     }
 
-    private boolean doParseXML(InputStream xmlFile, String parserType) throws IOException {
+    private boolean doParseXML(InputStream xmlFile, String parserType, NewsXML newsXML) {
         List<News> newsList = new ArrayList<>();
         switch (parserType.toLowerCase()) {
             case "sax":
@@ -78,25 +84,27 @@ public class XmlFileController {
                 break;
         }
         if (newsList.isEmpty()) {
-            writeDataOnlyToXmlDatabase();
-            LOGGER.info("Parsing was not successful and this data to only XML DB" + newsList.toString());
+            LOGGER.info("Parsing was not successful" );
+            writeDataToXmlDatabase(newsXML);
         } else {
-            writeDataToBothSDatabases(newsList);
-            LOGGER.info("Parsing was  successful and this data to both DB" + newsList.toString());
+            LOGGER.info("Parsing was successful");
+            newsXML.setSuccess(true);
+            writeDataToNewsDatabase(newsList);
+            writeDataToXmlDatabase(newsXML);
         }
         return false;
     }
 
-    private boolean writeDataOnlyToXmlDatabase() {
-
-        return false;
+    private void writeDataToXmlDatabase(NewsXML newsXML) {
+        LOGGER.info("This newsXml get to XML DB " + newsXML);
     }
 
-    private boolean writeDataToBothSDatabases(List<News> newsList) {
+    private void writeDataToNewsDatabase(List<News> newsList) {
+        LOGGER.info("This data get to NEWS DB" + newsList);
         for (News news : newsList) {
             newsMySqlDao.create(news);
         }
-        return false;
     }
 }
+
 //TODO: Exception IO remove and insert own Runtime
