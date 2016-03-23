@@ -19,6 +19,7 @@ import java.util.Arrays;
 @Controller
 public class NewsController {
     private static final Logger LOGGER = LoggerFactory.getLogger(NewsController.class);
+
     @Autowired
     private NewsDao newsDao;
 
