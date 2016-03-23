@@ -57,12 +57,14 @@ public class XmlFileController {
     public String fileProcessing(@RequestParam("file") MultipartFile multipartFile,
                                  @RequestParam("parser_type") String parserType,
                                  ModelMap model) {
+
         LOGGER.info(parserType);
         NewsXML newsXML = newsXMLFactory.getNewsXML(multipartFile);
         InputStream xmlFile;
         try {
             xmlFile = multipartFile.getInputStream();
         } catch (IOException e) {
+            LOGGER.error("Can't get input stream from multipart file", e);
             throw new XMLFileControllerException("Can't get input stream from multipart file", e);
         }
         LOGGER.info("Fetching xmlFile");
@@ -75,8 +77,13 @@ public class XmlFileController {
             LOGGER.info("Validation of xmlFile is successful, start parsing");
             model.addAttribute("message", "Validate is success! Your file was parsed and news saved in DataBase");
         }
-        doParseXML(xmlFile, parserType, newsXML);
-        return "xml-validate-success";
+        if(doParseXML(xmlFile, parserType, newsXML)){
+            model.addAttribute("message2", "XML Parsing was success! Your news had write to Database");
+            return "xml-work";
+        } else{
+            model.addAttribute("message2", "XML Parsing was not success! Your news hadn't write to Database");
+            return "xml-work";
+        }
     }
 
     private boolean doParseXML(InputStream xmlFile, String parserType, NewsXML newsXML) {
@@ -95,13 +102,14 @@ public class XmlFileController {
         if (newsList.isEmpty()) {
             LOGGER.info("Parsing was not successful");
             writeDataToXmlDatabase(newsXML);
+            return false;
         } else {
             LOGGER.info("Parsing was successful");
             newsXML.setSuccess(true);
             writeDataToNewsDatabase(newsList);
             writeDataToXmlDatabase(newsXML);
+            return true;
         }
-        return false;
     }
 
     private void writeDataToXmlDatabase(NewsXML newsXML) {
@@ -115,7 +123,6 @@ public class XmlFileController {
             newsDao.create(news);
         }
     }
-
 
     private InputStream resetStream(InputStream other) {
         try {

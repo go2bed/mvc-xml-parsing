@@ -8,18 +8,20 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ViewMappingController {
 
+
     @RequestMapping("/main")
     public ModelAndView mainPage() {
-        return new ModelAndView("main");
+        return new ModelAndView("news");
     }
 
-    @RequestMapping("/xml-validate")
-    public ModelAndView xmlValidatePage() {
-        return new ModelAndView("xml-validate");
+    @RequestMapping("/xml-work")
+    public ModelAndView xmlWorkPage() {
+        return new ModelAndView("xml-work");
     }
 
     @RequestMapping("/xml-parsing")
-    public ModelAndView xmlParseSuccessPage(){
-        return new ModelAndView("xml-parsing-success");
+    public ModelAndView xmlParseSuccessPage() {
+        return new ModelAndView("xml-work");
     }
+
 }

@@ -32,12 +32,15 @@ public class NewsDao implements GenericDao<News> {
     @Override
     public void create(News news) {
         LOGGER.info("creating new entity in DB" + news);
-        em.merge(news);
+           if (news.getId() == null) {
+                em.merge(news);
+            } else {
+                update(news);
+           }
     }
 
     @Override
     public void update(News news) {
-        //TODO  em.merge() ?? diff between persist and merge ??
         News updateNews = em.find(News.class, news.getId());
         updateNews.setTitle(news.getTitle());
         updateNews.setNewsDate(news.getNewsDate());

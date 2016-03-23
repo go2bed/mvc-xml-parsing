@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+    <definition name="my.home.page" template="/WEB-INF/jsp/common-layout.jsp">
+        <put-attribute name="header" value="/WEB-INF/jsp/layouts/header.jsp"/>
+        <put-attribute name="sidebar" value="/WEB-INF/jsp/layouts/sidebar.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/jsp/show-news-form.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/layouts/footer.jsp"/>
+        <put-attribute name="title" value="my.home.page"/>
+    </definition>
+
+    <definition name="my.edit.page" extends="my.home.page">
+        <put-attribute name="header" value="/WEB-INF/jsp/layouts/header.jsp"/>
+        <put-attribute name="sidebar" value="/WEB-INF/jsp/layouts/sidebar.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/jsp/edit-news-form.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/layouts/footer.jsp"/>
+        <put-attribute name="title" value="Edit Page"/>
+    </definition>
+
+    <definition name="my.view_news.page" extends="my.home.page">
+        <put-attribute name="header" value="/WEB-INF/jsp/layouts/header.jsp"/>
+        <put-attribute name="sidebar" value="/WEB-INF/jsp/layouts/sidebar.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/jsp/view-news-form.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/layouts/footer.jsp"/>
+        <put-attribute name="title" value="Create News Page"/>
+    </definition>
+
+
+    <definition name="xml.work.page" extends="my.home.page">
+        <put-attribute name="header" value="/WEB-INF/jsp/layouts/header.jsp"/>
+        <put-attribute name="sidebar" value="/WEB-INF/jsp/layouts/sidebar.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/jsp/xml-validate.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/layouts/footer.jsp"/>
+        <put-attribute name="title" value="Create News Page"/>
+    </definition>
+
+</tiles-definitions>
