@@ -10,6 +10,6 @@
 <h3>Message:${message}</h3>
 <br>
 <a href="news.html"><input
-        type="button" value="News page" /></a>
+        type="button" value="News page"/></a>
 </body>
 </html>

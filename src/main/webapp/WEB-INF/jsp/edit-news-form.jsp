@@ -11,11 +11,11 @@
             <div class="error"><html:errors/></div>
             <div class="field">
                 <spring:message code="news.edit.input.title"/>
-                 <input type="text" size="20" name="title" value="${news.title}">
+                <input type="text" size="20" name="title" value="${news.title}">
             </div>
             <div class="field">
                 <spring:message code="news.edit.input.date"/>
-                 <input type="date" size="20" name="newsDate" value="${news.newsDate}">
+                <input type="date" size="20" name="newsDate" value="${news.newsDate}">
             </div>
             <div class="field">
                 <spring:message code="news.edit.input.brief"/>
@@ -24,7 +24,7 @@
             </div>
             <div class="field">
                 <spring:message code="news.edit.input.content"/>
-                <textarea  typeof="text" cols="80" rows="13" name="content">${news.content}</textarea>
+                <textarea typeof="text" cols="80" rows="13" name="content">${news.content}</textarea>
                 <input type="hidden" name="content">
             </div>
             <div class="button-area">

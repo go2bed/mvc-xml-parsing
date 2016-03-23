@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 @Controller
 public class NewsController {
@@ -64,6 +65,7 @@ public class NewsController {
 
     @RequestMapping(value = "/delete-list", method = RequestMethod.POST)
     public ModelAndView deleteList(HttpServletRequest request, ModelMap map) {
+        LOGGER.info("Data from checkbox" + Arrays.toString(request.getParameterValues("checkbox1")));
         String[] parameterValues = request.getParameterValues("checkbox1");
         if (parameterValues != null) {
             for (String id : parameterValues) {

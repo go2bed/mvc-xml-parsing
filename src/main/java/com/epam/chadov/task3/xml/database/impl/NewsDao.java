@@ -32,11 +32,11 @@ public class NewsDao implements GenericDao<News> {
     @Override
     public void create(News news) {
         LOGGER.info("creating new entity in DB" + news);
-           if (news.getId() == null) {
-                em.merge(news);
-            } else {
-                update(news);
-           }
+        if (news.getId() == null) {
+            em.merge(news);
+        } else {
+            update(news);
+        }
     }
 
     @Override

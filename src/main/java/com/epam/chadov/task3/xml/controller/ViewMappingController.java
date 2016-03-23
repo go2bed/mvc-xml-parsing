@@ -8,7 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ViewMappingController {
 
-
     @RequestMapping("/main")
     public ModelAndView mainPage() {
         return new ModelAndView("news");

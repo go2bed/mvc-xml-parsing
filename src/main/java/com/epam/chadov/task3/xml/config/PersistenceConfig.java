@@ -51,7 +51,6 @@ public class PersistenceConfig {
         return bean;
     }
 
-
     private JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
         jpaVendorAdapter.setDatabase(Database.MYSQL);
@@ -77,6 +76,4 @@ public class PersistenceConfig {
         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
     }
-
-
 }

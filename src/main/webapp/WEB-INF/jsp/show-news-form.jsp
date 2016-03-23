@@ -3,12 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<script src="${pageContext.request.contextPath}/jquery/jquery.min.js"></script>
 <script>
-    function onSubmit(){
-    document.getElementById("action").addEventListener("click", function(){
-        document.getElementById("checkbox").checked = true;
-    });}
+    function calculate() {
+        var arr = $.map($('input:checkbox:checked'), function (e, i) {
+            return e.value;
+        });
+        console.log(arr);
+        return arr;
+    }
 </script>
 
 <div class="news-box">
@@ -37,13 +40,13 @@
             <input type="checkbox" name="checkbox" value="${news.id}" title="checkbox" id="checkbox"/>
         </div>
     </c:forEach>
-        <div class="button-area">
-            <form action="delete-list.html" method="post" onsubmit="onSubmit()">
-               <button type="submit" value="/delete-list" id="action" >
-                   <input type="hidden" id="checkbox1" name="checkbox1"/>
-                   <spring:message code="news.button.delete"/></button>
-            </form>
-        </div>
+    <div class="button-area">
+        <form action="delete-list.html" method="post" onsubmit="calculate()">
+            <input type="hidden" value=${arr} name="checkbox1"/>
+            <button type="submit" value="/delete-list" id="action">
+                <spring:message code="news.button.delete"/></button>
+        </form>
+    </div>
     <br>
     <br>
 </div>

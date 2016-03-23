@@ -13,7 +13,7 @@
         </li>
         <li>
             <form action="edit-news.html" method="post">
-                   <button type="submit" class="link">
+                <button type="submit" class="link">
                     <spring:message code="side.bar.action.add"/></button>
             </form>
         <li><a href="xml-work.html"><input

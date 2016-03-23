@@ -29,7 +29,6 @@
         <put-attribute name="title" value="Create News Page"/>
     </definition>
 
-
     <definition name="xml.work.page" extends="my.home.page">
         <put-attribute name="header" value="/WEB-INF/jsp/layouts/header.jsp"/>
         <put-attribute name="sidebar" value="/WEB-INF/jsp/layouts/sidebar.jsp"/>

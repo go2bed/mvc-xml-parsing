@@ -13,7 +13,6 @@
             base-package="com.epam.chadov.task3.xml"/>
     <tx:annotation-driven/>
 
-
     <!--View resolver for jsp pages-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass"
@@ -27,9 +26,7 @@
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
-
-
-    <!--Viw resolver for Tiles-->
+    <!--View resolver for Tiles-->
     <bean id="tilesViewResolver"
           class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>

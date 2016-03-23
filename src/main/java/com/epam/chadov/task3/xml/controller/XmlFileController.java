@@ -77,10 +77,10 @@ public class XmlFileController {
             LOGGER.info("Validation of xmlFile is successful, start parsing");
             model.addAttribute("message", "Validate is success! Your file was parsed and news saved in DataBase");
         }
-        if(doParseXML(xmlFile, parserType, newsXML)){
+        if (doParseXML(xmlFile, parserType, newsXML)) {
             model.addAttribute("message2", "XML Parsing was success! Your news had write to Database");
             return "xml-work";
-        } else{
+        } else {
             model.addAttribute("message2", "XML Parsing was not success! Your news hadn't write to Database");
             return "xml-work";
         }

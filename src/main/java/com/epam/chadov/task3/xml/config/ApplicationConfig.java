@@ -31,7 +31,6 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         return new ContextLoaderListener();
     }
 
-
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
