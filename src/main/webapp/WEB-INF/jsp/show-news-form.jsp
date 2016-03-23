@@ -7,11 +7,13 @@
 <script>
     function calculate() {
         var arr = $.map($('input:checkbox:checked'), function (e, i) {
-            return e.value;
+            return +e.value;
         });
         console.log(arr);
-        return arr;
-    }
+        $('input[name="checkbox1"]').val(arr);
+     }
+    $('div').delegate('input:checkbox','click', calculate);
+
 </script>
 
 <div class="news-box">
@@ -41,9 +43,9 @@
         </div>
     </c:forEach>
     <div class="button-area">
-        <form action="delete-list.html" method="post" onsubmit="calculate()">
-            <input type="hidden" value=${arr} name="checkbox1"/>
-            <button type="submit" value="/delete-list" id="action">
+        <form action="delete-list.html" method="post" onsubmit="calculate() ">
+            <input type="hidden" value="" name="checkbox1" id="checkbox1"/>
+            <button type="submit" value="/delete-list">
                 <spring:message code="news.button.delete"/></button>
         </form>
     </div>

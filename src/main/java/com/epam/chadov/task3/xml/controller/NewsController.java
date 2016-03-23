@@ -65,20 +65,11 @@ public class NewsController {
 
     @RequestMapping(value = "/delete-list", method = RequestMethod.POST)
     public ModelAndView deleteList(HttpServletRequest request, ModelMap map) {
-        LOGGER.info("Data from checkbox" + Arrays.toString(request.getParameterValues("checkbox1")));
-        String[] parameterValues = request.getParameterValues("checkbox1");
-        if (parameterValues != null) {
-            for (String id : parameterValues) {
-                newsDao.delete(Integer.parseInt(id));
-            }
-        } else {
-            if (request.getParameter("id") != null) {
-                String id = request.getParameter("id");
-                newsDao.delete(Integer.parseInt(id));
-            } else {
-                map.addAttribute("message", "This news was already deleted");
-                return new ModelAndView("index");
-            }
+        LOGGER.info("Data from checkbox " + Arrays.toString(request.getParameterValues("checkbox1")));
+        String[] parameterValues = request.getParameter("checkbox1").split(",");
+        for (String id : parameterValues) {
+            LOGGER.info(id + " This is id for deleting");
+            newsDao.delete(Integer.parseInt(id));
         }
         map.addAttribute("message", "Delete was successful");
         return new ModelAndView("index");
